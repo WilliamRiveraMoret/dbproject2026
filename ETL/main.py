@@ -2,6 +2,15 @@ from load import FileAndQuery, load_tables
 from initializes import reset_schema, _create_tables, sync_identity_sequences
 import psycopg
 
+# Local Testing
+# conn = psycopg.connect(
+#     host="localhost",
+#     port= 5432,
+#     dbname="vehicle_database",
+#     user="user",
+#     password="password"
+# )
+
 conn = psycopg.connect(
     host="localhost",
     port= 5432,
