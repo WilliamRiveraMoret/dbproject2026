@@ -7,7 +7,6 @@ from datetime import datetime
 import psycopg2
 
 
-# ---------- Pydantic models ----------
 class VehicleCreate(BaseModel):
     vehicle_type_id: int
     vehicle_status_id: int
@@ -58,7 +57,6 @@ class VehicleDAO:
             **PG_DB_CONFIG,
         )
 
-    # ---- helpers ----
     def _type_exists(self, cursor, vehicle_type_id: int) -> bool:
         cursor.execute(
             f"SELECT 1 FROM {SCHEMA}.vehicle_type WHERE vehicle_type_id = %s",
@@ -86,7 +84,6 @@ class VehicleDAO:
             )
         return cursor.fetchone() is not None
 
-    # ---- CREATE ----
     def create_vehicle(self, payload: VehicleCreate) -> int:
         conn = self.pool.getconn()
         try:
@@ -131,7 +128,6 @@ class VehicleDAO:
         finally:
             self.pool.putconn(conn)
 
-    # ---- READ one ----
     def get_vehicle_by_id(self, vehicle_id: int) -> Optional[VehicleResponse]:
         conn = self.pool.getconn()
         try:
@@ -151,7 +147,6 @@ class VehicleDAO:
         finally:
             self.pool.putconn(conn)
 
-    # ---- LIST (with filters + pagination) ----
     def get_vehicles(
         self,
         limit: int,
@@ -162,12 +157,10 @@ class VehicleDAO:
         conn = self.pool.getconn()
         try:
             cursor = conn.cursor(cursor_factory=DictCursor)
-            # Base WHERE clause
             clauses = []
             params: list = []
 
             if status is not None:
-                # spec: may be status name OR status ID
                 if status.isdigit():
                     clauses.append("v.vehicle_status_id = %s")
                     params.append(int(status))
@@ -213,7 +206,6 @@ class VehicleDAO:
         finally:
             self.pool.putconn(conn)
 
-    # ---- UPDATE (partial) ----
     def update_vehicle(self, vehicle_id: int, payload: VehicleUpdate) -> Optional[VehicleResponse]:
         data = payload.model_dump(exclude_unset=True)
         if not data:
@@ -277,7 +269,6 @@ class VehicleDAO:
         finally:
             self.pool.putconn(conn)
 
-    # ---- DELETE ----
     def delete_vehicle(self, vehicle_id: int) -> str:
         """Returns 'ok', 'not_found', or 'conflict'."""
         conn = self.pool.getconn()
@@ -306,7 +297,6 @@ class VehicleDAO:
         finally:
             self.pool.putconn(conn)
 
-    # ---- CURRENT LOCATION ----
     def get_current_location(self, vehicle_id: int) -> Optional[CurrentLocationResponse]:
         """Returns None if vehicle not found. Returns an object with
         last_ts/last_geom None if vehicle exists but has no pings."""
@@ -314,7 +304,6 @@ class VehicleDAO:
         try:
             cursor = conn.cursor(cursor_factory=DictCursor)
 
-            # vehicle exists?
             cursor.execute(
                 f"""
                 SELECT v.vehicle_id, v.plate_number,

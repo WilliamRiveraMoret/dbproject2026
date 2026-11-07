@@ -50,7 +50,6 @@ class DriverDAO:
             )
         return cursor.fetchone() is not None
 
-    # ---- CREATE ----
     def create_driver(self, payload: DriverCreate) -> int:
         conn = self.pool.getconn()
         try:
@@ -83,7 +82,6 @@ class DriverDAO:
         finally:
             self.pool.putconn(conn)
 
-    # ---- READ one ----
     def get_driver_by_id(self, driver_id: int) -> Optional[DriverResponse]:
         conn = self.pool.getconn()
         try:
@@ -102,7 +100,6 @@ class DriverDAO:
         finally:
             self.pool.putconn(conn)
 
-    # ---- LIST ----
     def get_drivers(
         self,
         limit: int,
@@ -146,7 +143,6 @@ class DriverDAO:
         finally:
             self.pool.putconn(conn)
 
-    # ---- UPDATE ----
     def update_driver(self, driver_id: int, payload: DriverUpdate) -> Optional[DriverResponse]:
         data = payload.model_dump(exclude_unset=True)
         if not data:
@@ -204,7 +200,6 @@ class DriverDAO:
         finally:
             self.pool.putconn(conn)
 
-    # ---- DELETE ----
     def delete_driver(self, driver_id: int) -> str:
         conn = self.pool.getconn()
         try:
