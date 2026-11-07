@@ -11,6 +11,9 @@ from handler.drivers import DriverHandler
 from dao.vehicle_assignments import VehicleAssignmentCreate, VehicleAssignmentUpdate
 from handler.vehicle_assignments import VehicleAssignmentHandler
 
+from dao.road_segments import RoadSegmentCreate, RoadSegmentUpdate
+from handler.road_segments import RoadSegmentHandler
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -126,3 +129,44 @@ async def update_vehicle_assignment(assignment_id: int, payload: VehicleAssignme
 @app.delete(f"{API}/vehicle-assignments/{{assignment_id}}")
 async def delete_vehicle_assignment(assignment_id: int):
     return VehicleAssignmentHandler().delete_assignment(assignment_id)
+
+# Road Segments
+@app.post(f"{API}/road-segments", status_code=201)
+async def create_road_segment(payload: RoadSegmentCreate):
+    return RoadSegmentHandler().create_road_segment(payload)
+
+@app.get(f"{API}/road-segments")
+async def get_road_segments(
+    limit: int = Query(20, ge=0),
+    offset: int = Query(0, ge=0),
+    bbox: Optional[str] = None,
+    name: Optional[str] = None,
+    min_speed_kph: Optional[float] = None,
+    max_speed_kph: Optional[float] = None,
+):
+    return RoadSegmentHandler().get_road_segments(limit, offset, bbox, name, min_speed_kph, max_speed_kph)
+
+@app.get(f"{API}/road-segments/geojson", response_class=Response)
+async def get_road_segments_geojson(
+    limit: int = Query(15000, ge=0),
+    offset: int = Query(0, ge=0),
+    name: Optional[str] = None,
+    min_speed_kph: Optional[float] = None,
+    max_speed_kph: Optional[float] = None,
+):
+    import json
+    data = RoadSegmentHandler().get_geojson(limit, offset, name, min_speed_kph, max_speed_kph)
+
+    return Response(content=json.dumps(data), media_type="application/geo+json")
+
+@app.get(f"{API}/road-segments/{{road_id}}")
+async def get_road_segment(road_id: int):
+    return RoadSegmentHandler().get_road_segment_by_id(road_id)
+
+@app.put(f"{API}/road-segments/{{road_id}}")
+async def update_road_segment(road_id: int, payload: RoadSegmentUpdate):
+    return RoadSegmentHandler().update_road_segment(road_id, payload)
+
+@app.delete(f"{API}/road-segments/{{road_id}}")
+async def delete_road_segment(road_id: int):
+    return RoadSegmentHandler().delete_road_segment(road_id)
