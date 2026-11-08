@@ -14,6 +14,9 @@ from handler.vehicle_assignments import VehicleAssignmentHandler
 from dao.road_segments import RoadSegmentCreate, RoadSegmentUpdate
 from handler.road_segments import RoadSegmentHandler
 
+from handler.parking_areas import ParkingAreaHandler
+from dao.parking_areas import ParkingAreaCreate, ParkingAreaUpdate
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -170,3 +173,29 @@ async def update_road_segment(road_id: int, payload: RoadSegmentUpdate):
 @app.delete(f"{API}/road-segments/{{road_id}}")
 async def delete_road_segment(road_id: int):
     return RoadSegmentHandler().delete_road_segment(road_id)
+
+# Parking Areas
+@app.post(f"{API}/parking-areas", status_code=201)
+async def create_parking_area(payload: ParkingAreaCreate):
+    return ParkingAreaHandler().create_parking_area(payload)
+
+@app.get(f"{API}/parking-areas")
+async def get_parking_areas(
+    limit: int = Query(20, ge=0),
+    offset: int = Query(0, ge=0),
+    bbox: Optional[str] = None,
+    name: Optional[str] = None,
+):
+    return ParkingAreaHandler().get_parking_areas(limit, offset, bbox, name)
+
+@app.get(f"{API}/parking-areas/{{parking_area_id}}")
+async def get_parking_area(parking_area_id: int):
+    return ParkingAreaHandler().get_parking_area_by_id(parking_area_id)
+
+@app.put(f"{API}/parking-areas/{{parking_area_id}}")
+async def update_parking_area(parking_area_id: int, payload: ParkingAreaUpdate):
+    return ParkingAreaHandler().update_parking_area(parking_area_id, payload)
+
+@app.delete(f"{API}/parking-areas/{{parking_area_id}}")
+async def delete_parking_area(parking_area_id: int):
+    return ParkingAreaHandler().delete_parking_area(parking_area_id)
