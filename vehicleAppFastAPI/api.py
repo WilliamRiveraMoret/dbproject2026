@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Query, Response
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
+from datetime import datetime
 
 from dao.vehicles import VehicleCreate, VehicleUpdate
 from handler.vehicles import VehicleHandler
@@ -16,6 +17,9 @@ from handler.road_segments import RoadSegmentHandler
 
 from handler.parking_areas import ParkingAreaHandler
 from dao.parking_areas import ParkingAreaCreate, ParkingAreaUpdate
+
+from dao.location_ping import LocationPingCreate, LocationPingUpdate
+from handler.location_ping import LocationPingHandler
 
 app = FastAPI()
 app.add_middleware(
@@ -199,3 +203,46 @@ async def update_parking_area(parking_area_id: int, payload: ParkingAreaUpdate):
 @app.delete(f"{API}/parking-areas/{{parking_area_id}}")
 async def delete_parking_area(parking_area_id: int):
     return ParkingAreaHandler().delete_parking_area(parking_area_id)
+
+# Location Pings
+@app.post(f"{API}/location-pings", status_code=201)
+async def create_location_ping(payload: LocationPingCreate):
+    return LocationPingHandler().create_ping(payload)
+ 
+ 
+@app.get(f"{API}/location-pings")
+async def get_location_pings(
+    limit: int = Query(20, ge=0),
+    offset: int = Query(0, ge=0),
+    vehicle_id: Optional[int] = None,
+    from_ts: Optional[datetime] = None,
+    to_ts: Optional[datetime] = None,
+    bbox: Optional[str] = None,
+):
+    return LocationPingHandler().get_pings(limit, offset, vehicle_id, from_ts, to_ts, bbox)
+ 
+ 
+@app.get(f"{API}/location-pings/{{ping_id}}")
+async def get_location_ping(ping_id: int):
+    return LocationPingHandler().get_ping_by_id(ping_id)
+ 
+ 
+@app.put(f"{API}/location-pings/{{ping_id}}")
+async def update_location_ping(ping_id: int, payload: LocationPingUpdate):
+    return LocationPingHandler().update_ping(ping_id, payload)
+ 
+ 
+@app.delete(f"{API}/location-pings/{{ping_id}}")
+async def delete_location_ping(ping_id: int):
+    return LocationPingHandler().delete_ping(ping_id)
+ 
+ 
+@app.get(f"{API}/vehicles/{{vehicle_id}}/pings")
+async def get_vehicle_pings(
+    vehicle_id: int,
+    limit: int = Query(20, ge=0),
+    offset: int = Query(0, ge=0),
+    from_ts: Optional[datetime] = None,
+    to_ts: Optional[datetime] = None,
+):
+    return LocationPingHandler().get_vehicle_pings(vehicle_id, limit, offset, from_ts, to_ts)
