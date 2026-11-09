@@ -3,26 +3,26 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
 from datetime import datetime
 
-from vehicleAppFastAPI.dao.vehicles import VehicleCreate, VehicleUpdate
-from vehicleAppFastAPI.handler.vehicles import VehicleHandler
+from backend.dao.vehicles import VehicleCreate, VehicleUpdate
+from backend.handler.vehicles import VehicleHandler
 
-from vehicleAppFastAPI.dao.drivers import DriverCreate, DriverUpdate
-from vehicleAppFastAPI.handler.drivers import DriverHandler
+from backend.dao.drivers import DriverCreate, DriverUpdate
+from backend.handler.drivers import DriverHandler
 
-from vehicleAppFastAPI.dao.vehicle_assignments import VehicleAssignmentCreate, VehicleAssignmentUpdate
-from vehicleAppFastAPI.handler.vehicle_assignments import VehicleAssignmentHandler
+from backend.dao.vehicle_assignments import VehicleAssignmentCreate, VehicleAssignmentUpdate
+from backend.handler.vehicle_assignments import VehicleAssignmentHandler
 
-from vehicleAppFastAPI.dao.road_segments import RoadSegmentCreate, RoadSegmentUpdate
-from vehicleAppFastAPI.handler.road_segments import RoadSegmentHandler
+from backend.dao.road_segments import RoadSegmentCreate, RoadSegmentUpdate
+from backend.handler.road_segments import RoadSegmentHandler
 
-from vehicleAppFastAPI.handler.parking_areas import ParkingAreaHandler
-from vehicleAppFastAPI.dao.parking_areas import ParkingAreaCreate, ParkingAreaUpdate
+from backend.handler.parking_areas import ParkingAreaHandler
+from backend.dao.parking_areas import ParkingAreaCreate, ParkingAreaUpdate
 
-from vehicleAppFastAPI.dao.location_ping import LocationPingCreate, LocationPingUpdate
-from vehicleAppFastAPI.handler.location_ping import LocationPingHandler
+from backend.dao.location_ping import LocationPingCreate, LocationPingUpdate
+from backend.handler.location_ping import LocationPingHandler
 
-from vehicleAppFastAPI.dao.trips import TripCreate, TripUpdate
-from vehicleAppFastAPI.handler.trips import TripHandler
+from backend.dao.trips import TripCreate, TripUpdate
+from backend.handler.trips import TripHandler
 
 app = FastAPI()
 app.add_middleware(

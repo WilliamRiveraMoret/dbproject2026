@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from vehicleAppFastAPI.dao.road_segments import RoadSegmentDAO, RoadSegmentCreate, RoadSegmentUpdate
+from backend.dao.road_segments import RoadSegmentDAO, RoadSegmentCreate, RoadSegmentUpdate
 
 
 class RoadSegmentHandler:
