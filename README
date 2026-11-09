@@ -1,0 +1,26 @@
+# Database Project API
+
+## Team: Data Crunchers
+
+**Members:**
+* William Rivera
+* Armando Rivera
+* Antonio Ramos
+
+## Live API
+
+The FastAPI application is deployed and accessible at the following URL:
+
+[https://dbproject2026-o1wi.onrender.com](https://dbproject2026-o1wi.onrender.com)
+
+## Database Credentials
+
+Below are the PostgreSQL database credentials hosted on Render.
+
+| Credential | Value | 
+| ----- | ----- | 
+| **Host** | `dpg-db9qeocs728c73clljr0-a.virginia-postgres.render.com` | 
+| **Port** | `5432` | 
+| **Database Name** | `dbclass_gt6b` | 
+| **User** | `dbuser` | 
+| **Password** | `eXotErgtJV2U03ysEJT9xSAnBBHwI3Cl` | 
