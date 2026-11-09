@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from dao.vehicle_assignments import (
+from vehicleAppFastAPI.dao.vehicle_assignments import (
     VehicleAssignmentDAO,
     VehicleAssignmentCreate,
     VehicleAssignmentUpdate,

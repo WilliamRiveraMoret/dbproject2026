@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from datetime import datetime, timezone
-from dao.trips import TripDAO, TripCreate, TripUpdate
+from vehicleAppFastAPI.dao.trips import TripDAO, TripCreate, TripUpdate
  
  
 def _naive(dt: datetime | None):

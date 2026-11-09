@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from datetime import datetime, timezone
-from dao.location_ping import LocationPingDAO, LocationPingCreate, LocationPingUpdate
+from vehicleAppFastAPI.dao.location_ping import LocationPingDAO, LocationPingCreate, LocationPingUpdate
  
  
 def _naive(dt: datetime | None):

@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from dao.parking_areas import ParkingAreaDAO, ParkingAreaCreate, ParkingAreaUpdate
+from vehicleAppFastAPI.dao.parking_areas import ParkingAreaDAO, ParkingAreaCreate, ParkingAreaUpdate
 
 
 class ParkingAreaHandler:

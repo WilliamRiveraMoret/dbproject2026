@@ -1,4 +1,4 @@
-from config.dbconfig import PG_DB_CONFIG, POOL_CONFIG, SCHEMA
+from vehicleAppFastAPI.config.dbconfig import PG_DB_CONFIG, POOL_CONFIG, SCHEMA
 from psycopg2.pool import SimpleConnectionPool
 from psycopg2.extras import DictCursor
 from pydantic import BaseModel, Field

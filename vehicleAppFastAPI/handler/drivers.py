@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from dao.drivers import DriverDAO, DriverCreate, DriverUpdate
+from vehicleAppFastAPI.dao.drivers import DriverDAO, DriverCreate, DriverUpdate
 
 
 class DriverHandler:
