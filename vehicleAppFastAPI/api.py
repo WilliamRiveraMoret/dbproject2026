@@ -21,6 +21,9 @@ from dao.parking_areas import ParkingAreaCreate, ParkingAreaUpdate
 from dao.location_ping import LocationPingCreate, LocationPingUpdate
 from handler.location_ping import LocationPingHandler
 
+from dao.trips import TripCreate, TripUpdate
+from handler.trips import TripHandler
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -246,3 +249,45 @@ async def get_vehicle_pings(
     to_ts: Optional[datetime] = None,
 ):
     return LocationPingHandler().get_vehicle_pings(vehicle_id, limit, offset, from_ts, to_ts)
+
+#Trips
+@app.post(f"{API}/trips", status_code=201)
+async def create_trip(payload: TripCreate):
+    return TripHandler().create_trip(payload)
+ 
+ 
+@app.get(f"{API}/trips")
+async def get_trips(
+    limit: int = Query(20, ge=0),
+    offset: int = Query(0, ge=0),
+    vehicle_id: Optional[int] = None,
+    from_ts: Optional[datetime] = None,
+    to_ts: Optional[datetime] = None,
+):
+    return TripHandler().get_trips(limit, offset, vehicle_id, from_ts, to_ts)
+ 
+ 
+@app.get(f"{API}/trips/{{trip_id}}")
+async def get_trip(trip_id: int):
+    return TripHandler().get_trip_by_id(trip_id)
+ 
+ 
+@app.put(f"{API}/trips/{{trip_id}}")
+async def update_trip(trip_id: int, payload: TripUpdate):
+    return TripHandler().update_trip(trip_id, payload)
+ 
+ 
+@app.delete(f"{API}/trips/{{trip_id}}")
+async def delete_trip(trip_id: int):
+    return TripHandler().delete_trip(trip_id)
+ 
+ 
+@app.get(f"{API}/vehicles/{{vehicle_id}}/trips")
+async def get_vehicle_trips(
+    vehicle_id: int,
+    limit: int = Query(20, ge=0),
+    offset: int = Query(0, ge=0),
+    from_ts: Optional[datetime] = None,
+    to_ts: Optional[datetime] = None,
+):
+    return TripHandler().get_vehicle_trips(vehicle_id, limit, offset, from_ts, to_ts)
